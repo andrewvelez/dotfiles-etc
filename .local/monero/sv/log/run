@@ -1,0 +1,6 @@
+#! /bin/sh
+#  by: Andrew Velez
+#
+#  desc: runit log/run script file for monerod service
+
+exec vlogger -t monerod -p daemon

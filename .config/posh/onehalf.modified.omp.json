@@ -1,0 +1,100 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "var": {
+    "Color-Palette-Url": "https://colorkit.co/color-palette-generator/e00000-ff4920-ffaa00-fff41d-fffc98-b3e3ff-4a95ff/",
+    "Separator": "⁝\u2009"
+  },
+  "palette": {
+    "red": "#d10a00",
+    "orange": "#ff5900",
+    "gold": "#ff9500",
+    "yellow": "#ffc917",
+    "cream": "#ffff93",
+    "white": "#EEEEEE"
+  },
+  "terminal_background": "p:background",
+  "console_title_template": "{{ .UserName }}@{{ .HostName }}",
+  "enable_cursor_positioning": true,
+  "blocks": [
+    {
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "foreground": "p:red",
+          "style": "plain",
+          "options": {
+            "time_format": "1/2 15:04"
+          },
+          "template": "{{.Var.Separator}}{{ .CurrentDate | date .Format }} ",
+          "type": "time"
+        },
+        {
+          "foreground": "p:orange",
+          "style": "plain",
+          "template": "{{.Var.Separator}}\uf32e Void-KDE ",
+          "type": "os"
+        },
+        {
+          "foreground": "p:gold",
+          "style": "plain",
+          "template": "{{.Var.Separator}}{{ .UserName }}@{{ .HostName }} ",
+          "type": "session"
+        },
+        {
+          "foreground": "p:yellow",
+          "style": "plain",
+          "options": {
+            "style": "full"
+          },
+          "template": "{{.Var.Separator}}\ue5fe {{ .Path }} ",
+          "type": "path"
+        },
+        {
+          "foreground": "p:yellow",
+          "options": {
+            "branch_icon": "",
+            "fetch_status": true,
+            "fetch_worktree_count": true
+          },
+          "style": "plain",
+          "template": "git:({{ if or (.Working.Changed) (.Staging.Changed) (gt .StashCount 0) }}<p:orange>{{ .HEAD }}</>{{ else }}<p:orange>{{ .HEAD }}</>{{ end }}{{ if (gt .Ahead 0)}}<p:red>{{ .BranchStatus }}</>{{ end }}{{ if (gt .Behind 0)}}<p:white>{{ .BranchStatus }}</>{{ end }}{{ if .Staging.Changed }} <p:red{{ .Staging.String }}</>{{ end }}{{ if .Working.Changed }} <p:red>{{ .Working.String }}</>{{ end }}) ",
+          "type": "git"
+        },
+        {
+          "foreground": "p:cream",
+          "style": "plain",
+          "template": "{{.Var.Separator}}{{ if eq .Code 0 }}exit{{ end }} {{ .Code }}",
+          "options": {
+            "always_enabled": true
+          },
+          "type": "status"
+        },
+        {
+          "foreground": "p:cream",
+          "style": "plain",
+          "template": ", {{ .FormattedMs }}",
+          "options": {
+            "always_enabled": false,
+            "threshold": 1
+          },
+          "type": "executiontime"
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "style": "plain",
+          "template": "{{ if .Root }}<p:red>{{.Var.Separator}}#> </>{{ else }}<p:white>{{.Var.Separator}}$> </>{{ end }}",
+          "type": "session"
+        }
+      ],
+      "type": "prompt"
+    }
+  ],
+  "version": 3
+}

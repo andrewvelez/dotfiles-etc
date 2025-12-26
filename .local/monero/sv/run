@@ -1,0 +1,8 @@
+#! /bin/sh
+#  by: Andrew Velez
+#
+#  desc: runit run script file for monerod service
+
+exec 2>&1
+sv check /etc/sv/network-manager > /dev/null || exit 1
+(exec chpst -U andrew:andrew /home/andrew/.local/bin/monerod --data-dir /home/andrew/.bitmonero --config-file /home/andrew/.bitmonero/bitmonero.conf --non-interactive) > /dev/null
