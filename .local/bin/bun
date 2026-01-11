@@ -1,0 +1,10 @@
+#!/bin/sh
+# distrobox_binary
+# name: bun
+if [ -z "${CONTAINER_ID}" ]; then
+	exec "/usr/bin/distrobox-enter"  -n bun  --  '/home/andrew/.local/bun/bin/bun'  "$@"
+elif [ -n "${CONTAINER_ID}" ] && [ "${CONTAINER_ID}" != "bun" ]; then
+	exec distrobox-host-exec '/home/andrew/.local/bin/bun' "$@"
+else
+	exec  '/home/andrew/.local/bun/bin/bun' "$@"
+fi

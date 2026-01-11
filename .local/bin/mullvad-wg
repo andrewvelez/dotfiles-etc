@@ -1,26 +1,20 @@
 #! /bin/sh
 #  by: Andrew Velez
 #
-#  desc: toggle to bring up/down mullvad wireguard
+#  desc: bring down *all* wg conf
 
-_up() {
-  for conf_file in $(shuf -e /etc/wireguard/*.conf); do
-    if wg-quick up "${conf_file}" > /dev/null 2>&1; then
-      (exit 0)
-      break
-    else
-      (exit 1)
-      continue
-    fi
+_up() (
+  for conf in /etc/wireguard/*.conf; do
+    [ -r "$conf" ] || continue
+    wg-quick up "$conf" > /dev/null 2>&1 && break
   done
-}
+)
 
-_down() {
-  for conf_file in $(shuf -e /etc/wireguard/*.conf); do
-    wg-quick down "${conf_file}" > /dev/null 2>&1
+_down() (
+  for conf in /etc/wireguard/*.conf; do
+    [ -r "$conf" ] && wg-quick down "$conf" > /dev/null 2>&1
   done
-  (exit 0)
-}
+)
 
 case "$1" in
   "up")
@@ -30,7 +24,7 @@ case "$1" in
     _down
     ;;
   *)
-    echo "The usage is: mullvad-wg (up | down)"
+    echo "usage: mullvad-wg (up|down)"
     exit 1
     ;;
 esac

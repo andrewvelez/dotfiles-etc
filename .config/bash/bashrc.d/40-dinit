@@ -1,0 +1,12 @@
+#! /bin/bash
+#  by: Andrew Velez
+#
+# aliases for bash
+
+[ -r "/etc/dinit/environment" ] && . "/etc/dinit/environment"
+export DINIT_SOCKET_PATH; readonly DINIT_SOCKET_PATH
+export DINIT_SERVICES_DIR; readonly DINIT_SERVICES_DIR
+export DINIT_SOCKET_PATH_USER; readonly DINIT_SOCKET_PATH_USER
+export DINIT_SERVICES_DIR_USER; readonly DINIT_SERVICES_DIR_USER
+
+# start the dinit user instance via the system instance

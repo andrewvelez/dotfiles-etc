@@ -1,0 +1,48 @@
+#! /bin/bash
+#  by: Andrew Velez
+#
+#  desc: bash environment file
+
+HISTCONTROL=$HISTCONTROL${HISTCONTROL+:}ignoredups
+HISTCONTROL=ignoreboth
+shopt -s histappend
+shopt -s checkwinsize
+
+if [[ -x /usr/bin/dircolors ]]; then
+  (test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)") || eval "$(dircolors -b)"
+  alias ls='ls --color=auto'
+fi
+
+export TERM="xterm-256color"
+export XDG_CONFIG_HOME="$HOME/.config"
+export NVM_DIR="$HOME/.local/nvm"
+export BUN_INSTALL="$HOME/.local/bun"
+export RUSTUP_HOME="$HOME/.local/rustup"
+export CARGO_HOME="$HOME/.local/cargo"
+export GOPATH="$HOME/.local/go"
+export RUBY_HOME="$HOME/.local/share/gem/ruby/3.4.0"
+export RUSTFLAGS="-Clink-arg=-z -Clink-arg=nostart-stop-gc"
+export RUSTUP_INIT_SKIP_PATH_CHECK="yes"
+
+prepend_dir_to "PATH" "$HOME/.local/bin"
+prepend_dir_to "PATH" "$DOTNET_ROOT"
+prepend_dir_to "PATH" "$DOTNET_ROOT/tools"
+prepend_dir_to "PATH" "$RUBY_HOME/bin"
+prepend_dir_to "PATH" "/usr/lib/go/bin"
+prepend_dir_to "PATH" "$GOPATH/bin"
+prepend_dir_to "PATH" "$CARGO_HOME/bin"
+
+prepend_dir_to "XDG_DATA_DIRS" "/var/lib/flatpak/exports/share"
+prepend_dir_to "XDG_DATA_DIRS" "$HOME/.local/flatpak/exports/share"
+
+# Source all the things!
+[[ $- == *i* ]] && [[ -r "$HOME/.local/share/blesh/ble.sh" ]] && . "$HOME/.local/share/blesh/ble.sh" --attach=none
+type -t "oh-my-posh" > /dev/null && eval "$(oh-my-posh init bash --config "$HOME"/.config/posh/onehalf.modified.omp.json)"
+type -t "batman" > /dev/null && eval "$(batman --export-env)"
+type -t "jj" > /dev/null && eval "$(jj util completion bash)"
+[[ -r "$NVM_DIR/nvm.sh" ]] && . "$NVM_DIR/nvm.sh"
+[[ -r "$NVM_DIR/bash_completion" ]] && . "$NVM_DIR/bash_completion"
+[[ -r "$CARGO_HOME/env" ]] && . "$CARGO_HOME/env"
+[[ -r "$HOME/.rbenv/bin/rbenv" ]] && eval "$("$HOME"/.rbenv/bin/rbenv init - --no-rehash bash)"
+
+eval "$(ssh-agent -s)" > /dev/null

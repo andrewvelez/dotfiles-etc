@@ -1,0 +1,53 @@
+#! /bin/bash
+#  by: Andrew Velez
+#
+#  desc: shows the dinit tree
+#  usage: dinit-tree [service-dir] [service-name]
+
+_parse_property_line() (
+  local _PROPERTY, _SERVICE1
+  [ "$#" -eq 2 ] || return 1
+  _SERVICE1="$2"
+
+  _PROPERTY=$("$1" | awk -F'#' '{
+      gsub(/^[ \t]+|[ \t]+$/, "", $1);
+      split($1, a, "=");
+      gsub(/^[ \t]+|[ \t]+$/, "", a[1]);
+      gsub(/^[ \t]+|[ \t]+$/, "", a[2]);
+      gsub(/^["'"'"']|["'"'"']$/, "", a[2]);
+      if (a[1] && a[2]) print "\"" a[1] "\" \"" a[2] "\""
+  }')
+
+  case "${_PROPERTY[1]}" in
+    "depends-on")
+      echo "${_PROPERTY[2]} <=== ${_SERVICE1}"
+      ;;
+    "depends-ms")
+      echo "${_PROPERTY[2]} <--- ${_SERVICE1}"
+      ;;
+    "waits-for")
+      echo "${_PROPERTY[2]} <... ${_SERVICE1}"
+      ;;
+    "after")
+      echo "${_PROPERTY[2]} < ${_SERVICE1}"
+      ;;
+    "before")
+      echo "${_PROPERTY[2]} > ${_SERVICE1}"
+      ;;
+    "chain-to")
+      echo "${_PROPERTY[2]} < < < ${_SERVICE1}"
+      ;;
+    *)
+      :
+      ;;
+  esac
+)
+
+_parse_service_file() (
+    local dependency
+    [ -r "$1" ] || return 1
+    
+    while IFS= read -r line || [ -n "$line" ]; do
+        dependency=$(_parse_property_line "$line")
+    done < "$1"
+)
