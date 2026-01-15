@@ -36,8 +36,7 @@ prepend_dir_to "XDG_DATA_DIRS" "/var/lib/flatpak/exports/share"
 prepend_dir_to "XDG_DATA_DIRS" "$HOME/.local/flatpak/exports/share"
 
 # Source all the things!
-[[ $- == *i* ]] && [[ -r "$HOME/.local/share/blesh/ble.sh" ]] && . "$HOME/.local/share/blesh/ble.sh" --attach=none
-type -t "oh-my-posh" > /dev/null && eval "$(oh-my-posh init bash --config "$HOME"/.config/posh/onehalf.modified.omp.json)"
+type -t "oh-my-posh" > /dev/null && [[ -r "$HOME/.config/posh/onehalf.modified.omp.json" ]] && eval "$(oh-my-posh init bash --config "$HOME"/.config/posh/onehalf.modified.omp.json)"
 type -t "batman" > /dev/null && eval "$(batman --export-env)"
 type -t "jj" > /dev/null && eval "$(jj util completion bash)"
 [[ -r "$NVM_DIR/nvm.sh" ]] && . "$NVM_DIR/nvm.sh"

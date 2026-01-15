@@ -82,7 +82,7 @@
         {
           "style": "plain",
           "foreground": "p:wisteria-blue",
-          "template": "{{ .Var.Separator }}{{ if .Root }}<p:strawberry-red># </>{{ else }}<p:wisteria-blue>$ </>{{ end }}",
+          "template": "{{ if .Root }}<p:strawberry-red># </>{{ else }}<p:wisteria-blue>$ </>{{ end }}",
           "type": "session"
         }
       ],

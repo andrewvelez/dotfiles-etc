@@ -6,14 +6,16 @@ alias ls='ls --color=auto'
 alias l='ls -Al'
 alias ll='ls -AlL'
 alias where='whereis'
-alias doas='doas '
+alias sudo='sudo '
 alias e='edit-file'
 
 # directory shortcuts
 alias ph='cd $HOME; clear'
 
-# chimera specific
-alias cadd='doas apk update; doas apk add '
-alias cfind='doas apk update; doas apk search '
-alias cupgrade='doas apk update; doas apk upgrade; flatpak update '
-alias cdel='doas apk update; doas apk del '
+# void specific
+alias vadd='sudo xbps-install -S '
+alias vfind='sudo xbps-query -Rs '
+alias vdel='sudo xbps-remove '
+alias vupgrade='sudo xbps-install -Su; flatpak update'
+
+alias services='sudo sv status /var/service/*'
